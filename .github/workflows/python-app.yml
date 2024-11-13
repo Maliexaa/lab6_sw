@@ -3,28 +3,33 @@ name: Run Tests
 on:
   push:
     branches:
-      - master
+      - master  # Trigger the workflow on push to the master branch
   pull_request:
     branches:
-      - master
+      - master  # Trigger the workflow on pull request to the master branch
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # The job will run on the latest version of Ubuntu
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Step 2: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: '3.x'  # Ensure that Python 3.x is used
 
+      # Step 3: Install dependencies (if requirements.txt exists)
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt || echo "No requirements.txt found"
+          python -m pip install --upgrade pip  # Upgrade pip
+          pip install -r requirements.txt || echo "No requirements.txt found"  # Install dependencies if available
+
+      # Step 4: Run tests with unittest (using test_* pattern)
       - name: Run tests
         run: |
-          python -m unittest discover -s . -p "test_*.py"
+          python -m unittest discover -s . -p "test_*.py"  # Discover and run all test files starting with 'test_'
