@@ -29,11 +29,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt  # Adjust if you don't use external dependencies
 
-      # Step 4: Run tests using unittest discover (runs all tests in your repo)
+      # Step 4: Run tests using unittest discover (run all tests in the repository)
       - name: Run tests
         run: |
-          python -m unittest discover -s tests -p "*.py"  # Adjust if your test folder is named differently or you have other patterns
-
+          python -m unittest discover -s . -p "*.py"  # '.' to discover tests in the current directory
+          
   deploy:
     needs: test  # This job will only run if the test job is successful
     runs-on: ubuntu-latest
