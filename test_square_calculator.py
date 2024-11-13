@@ -1,32 +1,50 @@
-# test_square_calculator.py
 import unittest
-from square_calculator import SquareCalculator
+from calculator import Calculator  # Importing the Calculator class
 
-class TestSquareCalculator(unittest.TestCase):
+class TestCalculator(unittest.TestCase):
 
     def setUp(self):
-        self.calc = SquareCalculator()
+        # This method is run before each test, useful for setup code.
+        self.calc = Calculator()  # Creating an instance of the Calculator class
 
-    def test_area(self):
-        # Test area method for the square
-        result = self.calc.area(3)
-        self.assertEqual(result, 9)
+    def test_addition(self):
+        # Test addition functionality
+        result = self.calc.add(3, 3)
+        self.assertEqual(result, 6)  # 3 + 3 = 6
 
-        result = self.calc.area(0)
-        self.assertEqual(result, 0)
+        result = self.calc.add(-1, 1)
+        self.assertEqual(result, 0)  # -1 + 1 = 0
 
-        result = self.calc.area(-1)
-        self.assertEqual(result, 1) 
+        result = self.calc.add(-1, -1)
+        self.assertEqual(result, -2)  # -1 + -1 = -2
 
-    def test_perimeter(self):
-        # Test perimeter method for the square
-        result = self.calc.perimeter(3)
-        self.assertEqual(result, 12)
+    def test_subtraction(self):
+        # Test subtraction functionality
+        result = self.calc.subtract(10, 5)
+        self.assertEqual(result, 5)  # 10 - 5 = 5
 
-        result = self.calc.perimeter(0)
-        self.assertEqual(result, 0) 
-        result = self.calc.perimeter(-1)
-        self.assertEqual(result, -4)  # -1 * 4 = -4 (assuming negative side length is allowed)
+        result = self.calc.subtract(-1, -1)
+        self.assertEqual(result, 0)  # -1 - (-1) = 0
+
+    def test_multiply(self):
+        # Test multiplication functionality
+        result = self.calc.multiply(3, 7)
+        self.assertEqual(result, 21)  # 3 * 7 = 21
+
+        result = self.calc.multiply(-1, 1)
+        self.assertEqual(result, -1)  # -1 * 1 = -1
+
+    def test_divide(self):
+        # Test division functionality
+        result = self.calc.divide(10, 2)
+        self.assertEqual(result, 5)  # 10 / 2 = 5
+
+        result = self.calc.divide(-6, 3)
+        self.assertEqual(result, -2)  # -6 / 3 = -2
+
+        # Test division by zero, expecting a ValueError
+        with self.assertRaises(ValueError):
+            self.calc.divide(10, 0)  # Division by zero should raise an error
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main()  # This line runs the tests when this file is executed
