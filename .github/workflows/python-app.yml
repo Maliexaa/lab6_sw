@@ -1,41 +1,47 @@
-name: Test Calculator
+name: Test and Deploy Calculator
 
 on:
   push:
-    branches: [ "master" ]
+    branches: 
+      - master  # Trigger this workflow when pushing to 'master' branch
   pull_request:
-    branches: [ "master" ]
-    
+    branches:
+      - master  # Trigger this workflow on pull requests to 'master' branch
+
 jobs:
   test:
-    runs-on: ubuntu-latest  # This specifies the OS for the job, you can change this to macOS or Windows if needed.
+    runs-on: ubuntu-latest  # Set the runner to Ubuntu (you can change to 'macos-latest' or 'windows-latest')
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v2  # This step checks out your code from GitHub
+        uses: actions/checkout@v2  # Checkout the code so that it can be used by the workflow
 
+      # Step 2: Set up Python environment
       - name: Set up Python environment
         uses: actions/setup-python@v2
         with:
-          python-version: 3.x  # Adjust Python version if needed, you can specify like '3.8' if you want a specific version.
+          python-version: 3.x  # Set the desired Python version (adjust if needed)
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip  # Ensures pip is updated
-          pip install -r requirements.txt || echo "No requirements.txt found"  # Install dependencies (if requirements.txt exists)
-
+          python -m pip install --upgrade pip  # Upgrade pip to the latest version
+          pip install -r requirements.txt || echo "No requirements.txt found"  # Install dependencies if requirements.txt exists
+      # Step 4: Run tests
       - name: Run tests
         run: |
-          python -m unittest discover -s . -p "test_*.py"  # This will discover and run all test files matching the pattern 'test_*.py'
-
+          python -m unittest discover -s . -p "test_*.py"  # Run all tests matching 'test_*.py'
   deploy:
-    needs: test  # This job will run only if the 'test' job passes
-    runs-on: ubuntu-latest  # Use the same runner, or change it if needed for deployment
+    needs: test  # This job will only run if the 'test' job passes
+    runs-on: ubuntu-latest  # Deploy job also runs on Ubuntu (or adjust as needed)
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Step 2: Deploy the application
       - name: Deploy Application
         run: |
-          echo "Deploying the application..."  # Replace this with your actual deployment commands.
+          echo "Deploying the application..."  # Replace with actual deployment commands
